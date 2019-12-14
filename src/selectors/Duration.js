@@ -17,25 +17,17 @@ export default class Duration extends React.Component{
         super(props)
 
         this.state = {
-            durationSettings:{
-                timelapse:true,
-                duration:0
-            },
-            hours:0,
-            minutes:0,
-            seconds:0,
+            hours: Math.floor(this.props.currentParams.duration / 3600),
+            minutes:Math.floor((this.props.currentParams.duration % 3600) / 60),
+            seconds:((this.props.currentParams.duration % 3600) % 60)
         }
         this.onSwitchChange = this.onSwitchChange.bind(this)
     }
 
     onSwitchChange(){
-        let newState = this.state.durationSettings
-        newState.timelapse = !this.state.durationSettings.timelapse
-
-        this.setState({durationSettings:newState}, function(){
-            console.log("Switching mode")
-            this.props.changeParams(this.state.durationSettings, "duration")
-        })
+        let newState = this.props.currentParams
+        newState.timelapseDuration = !this.props.currentParams.timelapseDuration
+        this.props.changeParams(newState, "duration", "timelapseParams")
     }
 
     handleDurationChange(event, type){
@@ -69,11 +61,9 @@ export default class Duration extends React.Component{
     }
 
     updateDuration(){
-        let newDuration = this.state.durationSettings
+        let newDuration = this.props.currentParams
         newDuration.duration = this.state.hours * 3600 + this.state.minutes * 60 + this.state.seconds
-        this.setState({durationSettings:newDuration}, function(){
-            this.props.changeParams(this.state.durationSettings, "duration")
-        })
+        this.props.changeParams(newDuration, "duration", "timelapseParams")
     }
 
 
@@ -83,7 +73,7 @@ render(){
             <FormGroup row>
                 <FormControlLabel
                 control={
-                    <Switch checked={this.state.durationSettings.timelapse} onChange={this.onSwitchChange} value="timelapse"/>
+                    <Switch checked={this.props.currentParams.timelapseDuration} onChange={this.onSwitchChange} value="timelapse"/>
                 }
                 label="Timelapse duration"/>
                 <InputLabel id="demo-simple-select-label">Hours</InputLabel>
@@ -94,7 +84,7 @@ render(){
                   onChange={e => this.handleDurationChange(e, "hours")}
                 >
                  {hoursArray.map(hours =>(
-                     <MenuItem value={hours}> {hours} </MenuItem>))}
+                     <MenuItem value={hours} key={hours}> {hours} </MenuItem>))}
                 </Select>
 
                 <InputLabel id="demo-simple-select-label">Minutes</InputLabel>
@@ -105,7 +95,7 @@ render(){
                   onChange={e => this.handleDurationChange(e, "minutes")}
                 >
                  {sixtyArray.map(minutes =>(
-                 <MenuItem value={minutes}> {minutes} </MenuItem>))}
+                 <MenuItem value={minutes} key={minutes}> {minutes} </MenuItem>))}
                 </Select>
 
                 <InputLabel id="demo-simple-select-label">Seconds</InputLabel>
@@ -116,7 +106,7 @@ render(){
                   onChange={e => this.handleDurationChange(e, "seconds")}
                 >
                  {sixtyArray.map(seconds =>(
-                 <MenuItem value={seconds}> {seconds} </MenuItem>))}
+                 <MenuItem value={seconds} key={seconds}> {seconds} </MenuItem>))}
                 </Select>
             </FormGroup>
         </div>

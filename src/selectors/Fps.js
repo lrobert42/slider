@@ -20,7 +20,7 @@ export default function Fps(props) {
   const [fps, setFps] = React.useState('');
   const handleChange = event => {
     setFps(event.target.value);
-    props.changeParams(event.target.value, "fps")
+    props.changeParams(event.target.value, "fps", "timelapseParams")
   };
 
   return (
@@ -30,7 +30,7 @@ export default function Fps(props) {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={fps}
+          value={props.currentParams}
           onChange={handleChange}
         >
           <MenuItem value={24}>24 Fps</MenuItem>

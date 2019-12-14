@@ -6,8 +6,10 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
-import TimelapseSelectorForm from './TimelapseSelectorForm.js'
 import Button from '@material-ui/core/Button';
+
+import TimelapseSelectorForm from './selectors/TimelapseSelectorForm.js'
+import CameraSelectorForm from './selectors/CameraSelectorForm.js'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -57,20 +59,25 @@ export default class Navigation extends React.Component{
             </AppBar>
 
             <TabPanel value={this.state.tab} index={0}>
-                <TimelapseSelectorForm handleRecording = {this.props.handleRecording}/>
+                <TimelapseSelectorForm
+                    setParams = {this.props.setParams}
+                    currentParams = {this.props.timelapseParams}/>
                 <Button variant="contained"
                     color="primary"
-                    onClick={this.props.startRecording}>Launch timelapse </Button>
+                    onClick={this.props.startRecording}>Launch timelapse</Button>
             </TabPanel>
             <TabPanel value={this.state.tab}index={1}>
                 <>
+                <CameraSelectorForm
+                    setParams = {this.props.setParams}
+                    currentParams = {this.props.cameraParams}/>
                     <h1> Camera settings</h1>
                     <h2> Exposure time</h2>
                     <h2> Step time </h2>
                     <h2> ISO</h2>
                     <Button variant="contained"
                         color="primary"
-                        onClick={this.props.startRecording}>Launch timelapse </Button>
+                        onClick={this.props.startRecording}>Launch timelapse</Button>
 
                 </>
             </TabPanel>

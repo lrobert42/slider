@@ -17,13 +17,13 @@ const useStyles = makeStyles({
 
 export default function Distance(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(30);
+  const [value, setValue] = React.useState(props);
 
   const handleSliderChange = (event, newValue) => {
 
       if (newValue !== value){
           setValue(newValue);
-          props.changeParams(Number(newValue), "distance")
+          props.changeParams(Number(newValue), "distance", "timelapseParams")
       }
 
   };
@@ -64,7 +64,7 @@ export default function Distance(props) {
       <Grid container spacing={2} alignItems="center">
         <Grid item xs>
           <Slider
-            value={typeof value === 'number' ? value : 0}
+            value={props.currentParams}
             onChange={handleSliderChange}
             aria-labelledby="input-slider"
           />
@@ -72,7 +72,7 @@ export default function Distance(props) {
         <Grid item>
           <Input
             className={classes.input}
-            value={value}
+            value={props.currentParams}
             margin="dense"
             onChange={handleInputChange}
             onBlur={handleBlur}

@@ -17,10 +17,11 @@ const useStyles = makeStyles(theme => ({
 
 export default function Direction(props) {
   const classes = useStyles();
+
   const [direction, setDirection] = React.useState('');
   const handleChange = event => {
     setDirection(event.target.value);
-    props.changeParams(event.target.value, "direction")
+    props.changeParams(event.target.value, "direction", "timelapseParams")
   };
 
   return (
@@ -30,7 +31,7 @@ export default function Direction(props) {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={direction}
+          value={props.currentParams}
           onChange={handleChange}
         >
           <MenuItem value={0}>Forward</MenuItem>
