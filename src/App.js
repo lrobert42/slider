@@ -15,7 +15,7 @@ export default class App extends React.Component{
                     duration:0
                 },
                 fps:'',
-                direction:0,
+                direction:'',
 
             },
             cameraParams:{
@@ -146,14 +146,12 @@ export default class App extends React.Component{
         else
         {
             return(
-                <>
                 <Navigation handleParamsChange = {this.handleParamsChange}
                             startRecording = {this.startRecording}
                             resumeRecording = {this.resumeRecording}
                             setParams = {this.setParams}
                             timelapseParams = {this.state.timelapseParams}
                             cameraParams={this.state.cameraParams}/ >
-                </>
             )
         }
     }

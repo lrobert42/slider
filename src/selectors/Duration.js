@@ -5,7 +5,26 @@ import Switch from '@material-ui/core/Switch'
 import Select from '@material-ui/core/Select'
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
+import { withStyles } from '@material-ui/core/styles';
 
+
+const StyledLabel = withStyles({
+  root: {
+      margin:"10px",
+      marginTop:"12px",
+      //color:"white"
+  },
+  label: {
+    textTransform: 'capitalize',
+
+  },
+})(InputLabel);
+
+const StyledSelect = withStyles({
+    root:{
+        marginRight: '8px'
+    }
+})(Select);
 
 const hoursArray = Array.from(Array(24).keys())
 
@@ -73,10 +92,10 @@ render(){
             <FormGroup row>
                 <FormControlLabel
                 control={
-                    <Switch checked={this.props.currentParams.timelapseDuration} onChange={this.onSwitchChange} value="timelapse"/>
+                    <Switch checked={this.props.currentParams.timelapseDuration} color="primary" onChange={this.onSwitchChange} value="timelapse"/>
                 }
                 label="Timelapse duration"/>
-                <InputLabel id="demo-simple-select-label">Hours</InputLabel>
+            <StyledLabel>Hours: </StyledLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -87,7 +106,7 @@ render(){
                      <MenuItem value={hours} key={hours}> {hours} </MenuItem>))}
                 </Select>
 
-                <InputLabel id="demo-simple-select-label">Minutes</InputLabel>
+                <StyledLabel>Minutes: </StyledLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -98,10 +117,9 @@ render(){
                  <MenuItem value={minutes} key={minutes}> {minutes} </MenuItem>))}
                 </Select>
 
-                <InputLabel id="demo-simple-select-label">Seconds</InputLabel>
+                <StyledLabel >Seconds: </StyledLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  id=""
                   value={this.state.seconds}
                   onChange={e => this.handleDurationChange(e, "seconds")}
                 >

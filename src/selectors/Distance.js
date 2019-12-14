@@ -1,19 +1,30 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import InputLabel from '@material-ui/core/InputLabel';
 import Slider from '@material-ui/core/Slider';
 import Input from '@material-ui/core/Input';
+import FormControl from '@material-ui/core/FormControl';
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     width: 250,
+    marginTop:15
   },
   input: {
     width: 42,
+    marginTop:1
   },
-});
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+
+  },
+  slider:{
+      marginTop:35
+  }
+}));
 
 export default function Distance(props) {
   const classes = useStyles();
@@ -57,13 +68,12 @@ export default function Distance(props) {
   };
 
   return (
-    <div className={classes.root}>
-      <Typography id="input-slider" gutterBottom>
-        Distance (cm)
-      </Typography>
+    <div className={classes.root} id="distance">
+        <FormControl className={classes.formControl}>
+    <InputLabel id="demo-simple-select-label">Distance (cm)</InputLabel>
       <Grid container spacing={2} alignItems="center">
         <Grid item xs>
-          <Slider
+          <Slider className={classes.slider}
             value={props.currentParams}
             onChange={handleSliderChange}
             aria-labelledby="input-slider"
@@ -86,6 +96,7 @@ export default function Distance(props) {
           />
         </Grid>
       </Grid>
+  </FormControl>
     </div>
   );
 }

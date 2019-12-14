@@ -7,7 +7,7 @@ import Select from '@material-ui/core/Select';
 
 const useStyles = makeStyles(theme => ({
   formControl: {
-    margin: theme.spacing(1),
+
     minWidth: 120,
   },
   selectEmpty: {
@@ -24,8 +24,8 @@ export default function Fps(props) {
   };
 
   return (
-    <div>
-      <FormControl className={classes.formControl}>
+    <div id="fps">
+      <FormControl className={classes.formControl} >
         <InputLabel id="demo-simple-select-label">Fps</InputLabel>
         <Select
           labelId="demo-simple-select-label"

@@ -9,18 +9,20 @@ export default function TimelapseSelectorForm(props){
 
 
         return(
-            <div>
+            <div className = "timelapseSettings">
                 <h2>Timelapse settings</h2>
                 <Duration
                     changeParams = {props.setParams}
                     currentParams = {props.currentParams.durationSettings}/>
-                <Direction
-                    changeParams = {props.setParams}
-                    currentParams = {props.currentParams.direction} />
-                <Distance
-                    changeParams={props.setParams}
-                    currentParams = {props.currentParams.distance}
-                    />
+                <div id="line">
+                    <Direction
+                        changeParams = {props.setParams}
+                        currentParams = {props.currentParams.direction} />
+                    <Distance
+                        changeParams={props.setParams}
+                        currentParams = {props.currentParams.distance}
+                        />
+                </div>
                 <Fps
                     changeParams = {props.setParams}
                     currentParams = {props.currentParams.fps} />

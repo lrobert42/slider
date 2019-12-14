@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -63,6 +62,7 @@ export default class Navigation extends React.Component{
                     setParams = {this.props.setParams}
                     currentParams = {this.props.timelapseParams}/>
                 <Button variant="contained"
+                    id="launch_ts"
                     color="primary"
                     onClick={this.props.startRecording}>Launch timelapse</Button>
             </TabPanel>
@@ -77,6 +77,7 @@ export default class Navigation extends React.Component{
                     <h2> ISO</h2>
                     <Button variant="contained"
                         color="primary"
+
                         onClick={this.props.startRecording}>Launch timelapse</Button>
 
                 </>
