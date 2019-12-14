@@ -1,6 +1,7 @@
 import React from 'react'
-import SelectorForm from './SelectorForm.js'
 import RecordScreen from './RecordScreen.js'
+import Navigation from './AppBar.js'
+
 
 export default class App extends React.Component{
     constructor(props){
@@ -8,23 +9,53 @@ export default class App extends React.Component{
         this.state = {
             recording:false,
             timelapseParams:{
-                duration:0,
+                distance:0,
+                durationSettings:{
+                    timelapseDuration:true,
+                    duration:0
+                },
                 fps:0,
                 direction:0,
-                noiseReduction:0
+                noiseReduction:false
+            },
+            cameraParams:{
+                exposureTime:0,
+                iso:0,
+                stepTime:0,
             }
         }
-
+        this.renderSelectform = this.renderSelectform.bind(this)
+        this.handleParamsChange = this.handleParamsChange.bind(this)
+        this.startRecording = this.startRecording.bind(this)
     }
 
-    handleRecording(recording, timelapseParams){
+    handleParamsChange(updatedState, name){
+        switch(name){
+            case "timelapseParams":
+                this.setState({timelapseParams:updatedState}, function(){
+                    console.log(name +" has been updated")
+                    console.log(this.state)
+                });
+                break;
+            case "cameraParams":
+                this.setState({cameraParams:updatedState}, function(){
+                    console.log(name +" has been updated")
+                    console.log(this.state)
+                });
+                break;
+            default:
+                console.log("Error in params update");
+                break;
+        }
+    }
 
-        // TODO: Send object to serv
-        this.setState(recording)
-        this.setState(timelapseParams)
+    startRecording(){
+        //check all values are set
+        this.setState({recording:true})
     }
 
     renderSelectform(){
+        console.log(this.state)
         if (this.state.recording === true)
         {
             return(
@@ -34,7 +65,10 @@ export default class App extends React.Component{
         else
         {
             return(
-                <SelectorForm />
+                <>
+                <Navigation handleParamsChange = {this.handleParamsChange}
+                            startRecording = {this.startRecording}/ >
+                </>
             )
         }
     }
@@ -42,7 +76,7 @@ export default class App extends React.Component{
     render(){
         return(
             <>
-            {this.renderSelectform}
+            {this.renderSelectform()}
             </>
         )
     }

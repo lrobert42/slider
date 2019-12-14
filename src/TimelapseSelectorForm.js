@@ -2,22 +2,30 @@ import React from 'react'
 import Duration from './selectors/Duration.js'
 import Fps from './selectors/Fps.js'
 import Direction from './selectors/Direction.js'
+import Distance from './selectors/Distance.js'
 import NoiseReduction from './selectors/NoiseReduction.js'
 
-export default class SelectorForm extends React.Component{
+export default class TimelapseSelectorForm extends React.Component{
     constructor(props){
         super(props)
         this.state = {
             recording:false,
             timelapseParams:{
-                duration:0,
+                distance:0,
+                durationSettings:{
+                    timelapseDuration:true,
+                    duration:0
+                },
                 fps:0,
                 direction:0,
-                noiseReduction:0
+                noiseReduction:false
             }
         }
         this.handleStart = this.handleStart.bind(this)
+        this.setParams = this.setParams.bind(this)
     }
+
+
 
     handleStart(){
         this.setState({recording:true}, function(){
@@ -25,11 +33,16 @@ export default class SelectorForm extends React.Component{
             this.props.recording(this.state.recording, this.state.timelapseParams)
         })
     }
+
     setParams(newParam, name){
-        let newState = {...this.state.timelapseParams}
+
+        let newState = this.state.timelapseParams
         switch(name){
+            case "distance":
+                newState.distance = newParam;
+                break;
             case "duration":
-                newState.duration = newParam;
+                newState.durationSettings = newParam;
                 break;
             case "direction":
                 newState.direction = newParam;
@@ -46,20 +59,32 @@ export default class SelectorForm extends React.Component{
         }
         this.setState(newState, function(){
             console.log(name +" has been updated")
+            let timelapseParams = this.state.timelapseParams
+            this.props.handleParamsChange(timelapseParams, "timelapseParams")
         })
     }
 
     render(){
         return(
-            <>
+            <div>
                 <h2>Timelapse settings</h2>
-                <Duration handleChange = {this.setParams}/>
-                <Fps handleChange = {this.setParams} />
-                <Direction handleChange = {this.setParams} />
-                <NoiseReduction handleChange = {this.setParams}/>
+                <Duration changeParams = {this.setParams}/>
+                <Direction changeParams = {this.setParams} />
+                <Distance changeParams={this.setParams}/>
+                <Fps changeParams = {this.setParams} />
+                <NoiseReduction changeParams = {this.setParams}/>
 
-                <button onClick={this.handleStart}> Start recording </button>
-            </>
+            </div>
         )
+
     }
 }
+
+
+
+
+
+//<ExposureTime />
+//<StepTime />
+//
+//
