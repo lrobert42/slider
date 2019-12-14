@@ -27,9 +27,10 @@ export default function Direction(props) {
     props.changeParams(event.target.value, "direction", "timelapseParams")
   };
 
-  return (
+if (props.disable){
+    return(
     <div className = {classes.root} id='direction'>
-      <FormControl className={classes.formControl}>
+      <FormControl className={classes.formControl} disabled >
         <InputLabel id="demo-simple-select-label">Direction</InputLabel>
         <Select
           labelId="demo-simple-select-label"
@@ -42,9 +43,28 @@ export default function Direction(props) {
 
         </Select>
       </FormControl>
+      </div>
+)}
 
 
+      else {
+          return (
+          <div className = {classes.root} id='direction'>
+            <FormControl className={classes.formControl} >
+              <InputLabel id="demo-simple-select-label">Direction</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={props.currentParams}
+                onChange={handleChange}
+              >
+                <MenuItem value={0}>Forward</MenuItem>
+                <MenuItem value={1}>Backward</MenuItem>
 
-    </div>
-  );
+              </Select>
+            </FormControl>
+          </div>
+          );
+      }
+
 }

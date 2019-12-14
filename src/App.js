@@ -129,7 +129,7 @@ export default class App extends React.Component{
         }
         else
         {
-            console.log("You must set all params before recording")
+            alert("You must set all parameters before recording")
         }
 
     }

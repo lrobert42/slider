@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 
 import TimelapseSelectorForm from './selectors/TimelapseSelectorForm.js'
 import CameraSelectorForm from './selectors/CameraSelectorForm.js'
+import SliderSettings from './SliderSettings.js'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -77,9 +78,7 @@ export default class Navigation extends React.Component{
                     <h2> ISO</h2>
                     <Button variant="contained"
                         color="primary"
-
                         onClick={this.props.startRecording}>Launch timelapse</Button>
-
                 </>
             </TabPanel>
             <TabPanel value={this.state.tab} index={2}>
@@ -87,8 +86,7 @@ export default class Navigation extends React.Component{
                 <h3> Insert preview from gphoto here</h3>
             </TabPanel>
             <TabPanel value={this.state.tab} index={3}>
-                <h1>Slider settings</h1>
-                <h3>Control the slider without shooting</h3>
+                <SliderSettings />
             </TabPanel>
             </>
         )
