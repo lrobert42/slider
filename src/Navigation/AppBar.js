@@ -7,9 +7,9 @@ import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 
-import TimelapseSelectorForm from './selectors/TimelapseSelectorForm.js'
-import CameraSelectorForm from './selectors/CameraSelectorForm.js'
-import SliderSettings from './SliderSettings.js'
+import TimelapseSelectorForm from '../Screens/TimelapseSettings/TimelapseSelectorForm.js'
+import CameraSelectorForm from '../Screens/CameraSettings/CameraSelectorForm.js'
+import SliderSettings from '../Screens/SliderSettings/SliderSettings.js'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

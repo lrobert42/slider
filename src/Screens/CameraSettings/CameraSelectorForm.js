@@ -1,8 +1,6 @@
 import React from 'react'
 import NoiseReduction from './NoiseReduction.js'
 
-
-
 export default function CameraSelectorForm(props){
 
 return(

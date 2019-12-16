@@ -1,5 +1,5 @@
 import React from 'react'
-import Direction from './selectors/Direction.js'
+import Direction from '../TimelapseSettings/Direction.js'
 import Button from '@material-ui/core/Button';
 
 export default class SliderSettings extends React.Component{
