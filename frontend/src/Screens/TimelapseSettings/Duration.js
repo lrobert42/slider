@@ -20,12 +20,6 @@ const StyledLabel = withStyles({
   },
 })(InputLabel);
 
-const StyledSelect = withStyles({
-    root:{
-        marginRight: '8px'
-    }
-})(Select);
-
 const hoursArray = Array.from(Array(24).keys())
 
 const sixtyArray = Array.from(Array(60).keys())
@@ -36,7 +30,7 @@ export default class Duration extends React.Component{
         super(props)
 
         this.state = {
-            hours: Math.floor(this.props.currentParams.duration / 3600),
+            hours:Math.floor(this.props.currentParams.duration / 3600),
             minutes:Math.floor((this.props.currentParams.duration % 3600) / 60),
             seconds:((this.props.currentParams.duration % 3600) % 60)
         }
@@ -50,8 +44,6 @@ export default class Duration extends React.Component{
     }
 
     handleDurationChange(event, type){
-
-        console.log(event)
         switch (type) {
             case "hours":
                 if (event.target.value !== this.state.hours)

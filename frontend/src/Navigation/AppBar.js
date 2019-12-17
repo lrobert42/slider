@@ -64,29 +64,24 @@ export default class Navigation extends React.Component{
             tab:0
         }
         this.handleChange = this.handleChange.bind(this)
-        this.renderTabPanel = this.renderTabPanel.bind(this)
-
     }
 
     handleChange(e, value){
         this.setState({tab:value})
     }
+    render(){
+        return(
+            <>
+            <AppBar position="static" >
+                <Tabs value={this.state.tab} onChange={this.handleChange} centered>
+                    <Tab label = "Timelapse settings"/>
+                    {this.props.toggleCameraControl ? <Tab label = "Camera settings"/> : null}
+                    {this.props.toggleCameraControl ? <Tab label = "Preview"/> : null}
+                    <Tab label = "Slider settings"/>
+                </Tabs>
+            </AppBar>
 
-
-    renderTabPanel(){
-        if (this.props.toggleCameraControl === true)
-        {
-            return(
-                <>
-                <AppBar position="static" >
-                    <Tabs value={this.state.tab} onChange={this.handleChange} centered>
-                        <Tab label = "Timelapse settings"/>
-                        <Tab label = "Camera settings"/>
-                        <Tab label = "Preview"/>
-                        <Tab label = "Slider settings"/>
-                    </Tabs>
-                </AppBar>
-                <TabPanel value={this.state.tab} index={0}>
+            <TabPanel value={this.state.tab} index={0}>
                 <TimelapseSelectorForm
                     setParams = {this.props.setParams}
                     currentParams = {this.props.timelapseParams}
@@ -99,15 +94,15 @@ export default class Navigation extends React.Component{
                     resumeRecording = {this.props.resumeRecording}
                     />
             </TabPanel>
-            <TabPanel value={this.state.tab}index={1}>
+            <TabPanel value={this.state.tab}index={this.props.toggleCameraControl ? 1 : -1}>
                 <>
                 <CameraSelectorForm
                     setParams = {this.props.setParams}
                     currentParams = {this.props.cameraParams}/>
-                    <h1> Camera settings</h1>
-                    <h2> Exposure time</h2>
-                    <h2> Step time </h2>
-                    <h2> ISO</h2>
+                <h1> Camera settings</h1>
+                <h2> Exposure time</h2>
+                <h2> Step time </h2>
+                <h2> ISO</h2>
                 <WhichButton
                     showLaunchButton = {this.props.showLaunchButton}
                     startRecording = {this.props.startRecording}
@@ -117,51 +112,15 @@ export default class Navigation extends React.Component{
 
                 </>
             </TabPanel>
-            <TabPanel value={this.state.tab} index={2}>
+            <TabPanel value={this.state.tab}index={this.props.toggleCameraControl ? 2 : -1}>
                 <h1>Preview</h1>
                 <h3> Insert preview from gphoto here</h3>
             </TabPanel>
-            <TabPanel value={this.state.tab} index={3}>
+            <TabPanel value={this.state.tab} index={this.props.toggleCameraControl ? 3 : 1}>
                 <SliderSettings socket={this.props.socket} />
             </TabPanel>
-            </>
-            )
-        }
-        else{
-            return(
-                <>
-                <AppBar position="static" >
-                    <Tabs value={this.state.tab} onChange={this.handleChange} centered>
-                        <Tab label = "Timelapse settings"/>
-                        <Tab label = "Slider settings"/>
-                    </Tabs>
-                </AppBar>
-                <TabPanel value={this.state.tab} index={0}>
-                    <TimelapseSelectorForm
-                        setParams = {this.props.setParams}
-                        currentParams = {this.props.timelapseParams}
-                        toggleCameraControl = {this.props.toggleCameraControl}
-                        handleCameraControlSwitch={this.props.handleCameraControlSwitch}/>
-                    <WhichButton
-                        showLaunchButton = {this.props.showLaunchButton}
-                        startRecording = {this.props.startRecording}
-                        cancelRecording = {this.props.cancelRecording}
-                        resumeRecording = {this.props.resumeRecording}
-                        />
-                </TabPanel>
-                <TabPanel value={this.state.tab} index={1}>
-                    <SliderSettings socket={this.props.socket} />
-                </TabPanel>
-                </>
-                )
-            }
 
-    }
-    render(){
-        return(
-<>
-    {this.renderTabPanel()}
-</>
+            </>
         )
     }
 }
