@@ -91,6 +91,7 @@ render(){
         <div id="duration">
             <FormGroup row>
                 <FormControlLabel
+                    labelPlacement ="top"
                 control={
                     <Switch checked={this.props.currentParams.timelapseDuration} color="primary" onChange={this.onSwitchChange} value="timelapse"/>
                 }
@@ -117,11 +118,13 @@ render(){
                  <MenuItem value={minutes} key={minutes}> {minutes} </MenuItem>))}
                 </Select>
 
-                <StyledLabel >Seconds: </StyledLabel>
+                 <StyledLabel >Seconds: </StyledLabel>
                 <Select
-                  id=""
-                  value={this.state.seconds}
-                  onChange={e => this.handleDurationChange(e, "seconds")}
+                    label="Seconds"
+                    labelPlacement="top"
+                    id=""
+                    value={this.state.seconds}
+                    onChange={e => this.handleDurationChange(e, "seconds")}
                 >
                  {sixtyArray.map(seconds =>(
                  <MenuItem value={seconds} key={seconds}> {seconds} </MenuItem>))}

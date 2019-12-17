@@ -5,11 +5,16 @@ import * as serviceWorker from './serviceWorker';
 import RecordScreen from './Screens/RecordScreen/RecordScreen.js'
 import Navigation from './Navigation/AppBar.js'
 
+const io = require('socket.io-client')
+const socket = io.connect('http://127.0.0.1:5000')
+
 class App extends React.Component{
     constructor(props){
         super(props)
         this.state = {
             recording:false,
+            showLaunchButton:true,
+            toggleCameraControl:false,
             timelapseParams:{
                 distance:0,
                 durationSettings:{
@@ -18,7 +23,6 @@ class App extends React.Component{
                 },
                 fps:'',
                 direction:'',
-
             },
             cameraParams:{
                 noiseReduction:false,
@@ -26,7 +30,6 @@ class App extends React.Component{
                 stepTime:0,
             },
             allSet:false,
-            pause:false,
             recordingParameters:{
                 elapsedTime:0,
                 coveredDistance:0,
@@ -34,42 +37,31 @@ class App extends React.Component{
             }
         }
         this.renderSelectform = this.renderSelectform.bind(this)
-        this.handleParamsChange = this.handleParamsChange.bind(this)
         this.startRecording = this.startRecording.bind(this)
         this.setParams = this.setParams.bind(this)
+        this.handlePause = this.handlePause.bind(this)
+        this.resumeRecording = this.resumeRecording.bind(this)
+        this.cancelRecording = this.cancelRecording.bind(this)
+
+    }
+
+
+    handleCameraControlSwitch(){
+        this.setState({toggleCameraControl:!this.state.toggleCameraControl})
     }
 
     handlePause(newParams){
-        this.setState({pause:true})
+        this.setState({recording:false, showLaunchButton:false})
+        //TODO PAUSE TIMER
+    //    let timelapseParams = newParams;
+    //    this.setState({timelapseParams});
+        socket.emit('pause_timelapse', "pause");
     }
 
-    resumeRecording(){
-        this.setState({pause:false})
-    }
-
-    handleParamsChange(updatedState, name, bool){
-        switch(name){
-            case "timelapseParams":
-                this.setState({timelapseParams:updatedState, timelapseAllSet:bool}, function(){
-                    console.log(name +" has been updated")
-                    console.log(this.state)
-
-                });
-                break;
-            case "cameraParams":
-                this.setState({cameraParams:updatedState, cameraAllSet:bool}, function(){
-                    console.log(name +" has been updated")
-                    console.log(this.state)
-                });
-                break;
-            default:
-                console.log("Error in params update");
-                break;
-        }
-    }
     checkAllSet(){
         let cameraParams = this.state.cameraParams
         let timelapseParams = this.state.timelapseParams
+        return(true)
         return (timelapseParams.fps !== 0 && timelapseParams.distance !== 0 &&
         timelapseParams.durationSettings.duration !== 0 && cameraParams.exposureTime !== 0 && cameraParams.stepTime !== 0)
 
@@ -125,9 +117,11 @@ class App extends React.Component{
     }
 
     startRecording(){
-        if (this.state.cameraAllSet && this.state.timelapseAllSet)
+        if (this.state.allSet)
         {
             this.setState({recording:true})
+            let object = [this.state.cameraParams, this.state.timelapseParams]
+            socket.emit('launch_timelapse', object)
         }
         else
         {
@@ -136,24 +130,41 @@ class App extends React.Component{
 
     }
 
+    cancelRecording(){
+        // TODO reset TIMER
+        this.setState({showLaunchButton:true})
+        socket.emit('cancel_recording', "cancel")
+    }
+
+    resumeRecording(){
+        //TODO resume timer
+        this.setState({recording:true})
+        socket.emit('resume_recording', "resume")
+    }
+
     renderSelectform(){
-        if (this.state.recording === true)
+        if (this.state.recording === true )
         {
             return(
                 <RecordScreen timelapseParams={this.state.timelapseParams}
                             cameraParams = {this.state.params}
-                            handlePause = {this.handlePause}/>
+                            handlePause = {this.handlePause}
+                            socket = {socket}/>
             )
         }
         else
         {
             return(
-                <Navigation handleParamsChange = {this.handleParamsChange}
-                            startRecording = {this.startRecording}
+                <Navigation startRecording = {this.startRecording}
                             resumeRecording = {this.resumeRecording}
+                            cancelRecording = {this.cancelRecording}
                             setParams = {this.setParams}
                             timelapseParams = {this.state.timelapseParams}
-                            cameraParams={this.state.cameraParams}/ >
+                            cameraParams={this.state.cameraParams}
+                            showLaunchButton={this.state.showLaunchButton}
+                            toggleCameraControl = {this.state.toggleCameraControl}
+                            handleCameraControlSwitch = {this.handleCameraControlSwitch}
+                            socket = {socket}/ >
             )
         }
     }

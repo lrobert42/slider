@@ -7,24 +7,27 @@ export default class SliderSettings extends React.Component{
 constructor(props){
     super(props)
     this.state = {
-        isSpinning:false
+        isSpinning:false,
+        direction:1,
     }
     this.clickHandler = this.clickHandler.bind(this)
+    this.handleDirection = this.handleDirection.bind(this)
 
 }
 
-changeParams(i) {
-    return (i === 0 ? 1 : 0)
+
+handleDirection(direction, change, changeType){
+    this.setState({direction: direction})
 }
 
 clickHandler(){
     this.setState({isSpinning: !this.state.isSpinning}, function (){
 
         if (this.state.isSpinning){
-            //TODO: Start spinning
+            this.props.socket.emit('start_spin', this.state.direction);
         }
         else {
-            // TODO: Stop spinning
+            this.props.socket.emit('stop_spin', "stop_spin");
         }
 
     })
@@ -36,8 +39,8 @@ render(){
         <h1>Slider settings</h1>
         <h3>Control the slider without shooting</h3>
         <Direction
-        changeParams = {this.changeParams}
-        currentParams = {1}
+        changeParams = {this.handleDirection}
+        currentParams = {this.state.direction}
         disable={this.state.isSpinning}/>
         <Button variant="contained"
             color="primary"

@@ -11,21 +11,43 @@ import TimelapseSelectorForm from '../Screens/TimelapseSettings/TimelapseSelecto
 import CameraSelectorForm from '../Screens/CameraSettings/CameraSelectorForm.js'
 import SliderSettings from '../Screens/SliderSettings/SliderSettings.js'
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
 
-  return (
-    <Typography
-      component="div"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box p={3}>{children}</Box>}
-    </Typography>
-  );
+function WhichButton(props){
+    if (props.showLaunchButton === true){
+        return(<Button variant="contained"
+            color="primary"
+            onClick={props.startRecording}>Launch timelapse</Button>)
+    }
+    else{
+    return(    <>
+        <Button variant="contained"
+            color="primary"
+            onClick={props.resumeRecording}>Resume timelapse</Button>
+        <Button variant="contained"
+            color="primary"
+            onClick={props.cancelRecording}>Cancel timelapse</Button>
+        </>
+    )
+    }
+}
+
+
+function TabPanel(props) {
+
+    const { children, value, index, ...other } = props;
+
+    return (
+        <Typography
+          component="div"
+          role="tabpanel"
+          hidden={value !== index}
+          id={`simple-tabpanel-${index}`}
+          aria-labelledby={`simple-tab-${index}`}
+          {...other}
+        >
+          {value === index && <Box p={3}>{children}</Box>}
+        </Typography>
+    );
 }
 
 TabPanel.propTypes = {
@@ -41,31 +63,31 @@ export default class Navigation extends React.Component{
             tab:0
         }
         this.handleChange = this.handleChange.bind(this)
+        this.renderTabPanel = this.renderTabPanel.bind(this)
+
     }
 
     handleChange(e, value){
         this.setState({tab:value})
     }
-    render(){
-        return(
-            <>
-            <AppBar position="static" >
-                <Tabs value={this.state.tab} onChange={this.handleChange} centered>
-                    <Tab label = "Timelapse settings"/>
-                    <Tab label = "Camera settings"/>
-                    <Tab label = "Preview"/>
-                    <Tab label = "Slider settings"/>
-                </Tabs>
-            </AppBar>
 
-            <TabPanel value={this.state.tab} index={0}>
+
+    renderTabPanel(bool){
+        console.log(bool)
+        if (bool === true)
+        {
+            return(
+                <>
+                <TabPanel value={this.state.tab} index={0}>
                 <TimelapseSelectorForm
                     setParams = {this.props.setParams}
                     currentParams = {this.props.timelapseParams}/>
-                <Button variant="contained"
-                    id="launch_ts"
-                    color="primary"
-                    onClick={this.props.startRecording}>Launch timelapse</Button>
+                <WhichButton
+                    showLaunchButton = {this.props.showLaunchButton}
+                    startRecording = {this.props.startRecording}
+                    cancelRecording = {this.props.cancelRecording}
+                    resumeRecording = {this.props.resumeRecording}
+                    />
             </TabPanel>
             <TabPanel value={this.state.tab}index={1}>
                 <>
@@ -76,9 +98,13 @@ export default class Navigation extends React.Component{
                     <h2> Exposure time</h2>
                     <h2> Step time </h2>
                     <h2> ISO</h2>
-                    <Button variant="contained"
-                        color="primary"
-                        onClick={this.props.startRecording}>Launch timelapse</Button>
+                <WhichButton
+                    showLaunchButton = {this.props.showLaunchButton}
+                    startRecording = {this.props.startRecording}
+                    cancelRecording = {this.props.cancelRecording}
+                    resumeRecording = {this.props.resumeRecording}
+                    />
+
                 </>
             </TabPanel>
             <TabPanel value={this.state.tab} index={2}>
@@ -86,9 +112,47 @@ export default class Navigation extends React.Component{
                 <h3> Insert preview from gphoto here</h3>
             </TabPanel>
             <TabPanel value={this.state.tab} index={3}>
-                <SliderSettings />
+                <SliderSettings socket={this.props.socket} />
             </TabPanel>
             </>
+            )
+        }
+        else{
+            return(
+                <>
+                <TabPanel value={this.state.tab} index={0}>
+                    <TimelapseSelectorForm
+                        setParams = {this.props.setParams}
+                        currentParams = {this.props.timelapseParams}/>
+                    <WhichButton
+                        showLaunchButton = {this.props.showLaunchButton}
+                        startRecording = {this.props.startRecording}
+                        cancelRecording = {this.props.cancelRecording}
+                        resumeRecording = {this.props.resumeRecording}
+                        />
+                </TabPanel>
+                <TabPanel value={this.state.tab} index={1}>
+                    <SliderSettings socket={this.props.socket} />
+                </TabPanel>
+                </>
+                )
+            }
+
+    }
+    render(){
+        return(
+<>
+            <AppBar position="static" >
+                <Tabs value={this.state.tab} onChange={this.handleChange} centered>
+                    <Tab label = "Timelapse settings"/>
+                    <Tab label = "Camera settings"/>
+                    <Tab label = "Preview"/>
+                    <Tab label = "Slider settings"/>
+                </Tabs>
+            </AppBar>
+
+            {this.renderTabPanel(this.props.toggleCameraControl)}
+</>
         )
     }
 }
