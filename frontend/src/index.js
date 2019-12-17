@@ -42,12 +42,15 @@ class App extends React.Component{
         this.handlePause = this.handlePause.bind(this)
         this.resumeRecording = this.resumeRecording.bind(this)
         this.cancelRecording = this.cancelRecording.bind(this)
+        this.handleCameraControlSwitch = this.handleCameraControlSwitch.bind(this)
 
     }
 
 
     handleCameraControlSwitch(){
-        this.setState({toggleCameraControl:!this.state.toggleCameraControl})
+        this.setState({toggleCameraControl:!this.state.toggleCameraControl}, function(){
+            console.log(this.state.toggleCameraControl)
+        })
     }
 
     handlePause(newParams){

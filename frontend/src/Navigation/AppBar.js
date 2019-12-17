@@ -91,7 +91,7 @@ export default class Navigation extends React.Component{
                     setParams = {this.props.setParams}
                     currentParams = {this.props.timelapseParams}
                     toggleCameraControl={this.props.toggleCameraControl}
-                    handleCameraControlSwitch = {this.props.toggleCameraControl}/>
+                    handleCameraControlSwitch = {this.props.handleCameraControlSwitch}/>
                 <WhichButton
                     showLaunchButton = {this.props.showLaunchButton}
                     startRecording = {this.props.startRecording}
@@ -139,7 +139,9 @@ export default class Navigation extends React.Component{
                 <TabPanel value={this.state.tab} index={0}>
                     <TimelapseSelectorForm
                         setParams = {this.props.setParams}
-                        currentParams = {this.props.timelapseParams}/>
+                        currentParams = {this.props.timelapseParams}
+                        toggleCameraControl = {this.props.toggleCameraControl}
+                        handleCameraControlSwitch={this.props.handleCameraControlSwitch}/>
                     <WhichButton
                         showLaunchButton = {this.props.showLaunchButton}
                         startRecording = {this.props.startRecording}

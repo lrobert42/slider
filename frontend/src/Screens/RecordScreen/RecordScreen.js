@@ -18,11 +18,10 @@ export default class RecordScreen extends React.Component{
     render(){
         return(
             <>
-                <h1> recording </h1>
+                <h1> Recording </h1>
                 <Button variant="contained"
                     color="primary"
                     onClick = {this.props.handlePause}> Pause timelapse </Button>
-
             </>
 
         )

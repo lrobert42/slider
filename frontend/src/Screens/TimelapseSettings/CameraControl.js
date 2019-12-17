@@ -11,7 +11,6 @@ export default function CameraControl(props) {
           control={<Switch color="primary" checked={props.toggleCameraControl} onChange={props.handleCameraControlSwitch}/>}
           label="Camera control"
           labelPlacement="top"
-
         />
     </FormControl>
   );
