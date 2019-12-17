@@ -19,13 +19,14 @@ function WhichButton(props){
             onClick={props.startRecording}>Launch timelapse</Button>)
     }
     else{
-    return(    <>
-        <Button variant="contained"
-            color="primary"
-            onClick={props.resumeRecording}>Resume timelapse</Button>
-        <Button variant="contained"
-            color="primary"
-            onClick={props.cancelRecording}>Cancel timelapse</Button>
+    return(
+        <>
+            <Button variant="contained"
+                color="primary"
+                onClick={props.resumeRecording}>Resume timelapse</Button>
+            <Button variant="contained"
+                color="primary"
+                onClick={props.cancelRecording}>Cancel timelapse</Button>
         </>
     )
     }
@@ -72,16 +73,25 @@ export default class Navigation extends React.Component{
     }
 
 
-    renderTabPanel(bool){
-        console.log(bool)
-        if (bool === true)
+    renderTabPanel(){
+        if (this.props.toggleCameraControl === true)
         {
             return(
                 <>
+                <AppBar position="static" >
+                    <Tabs value={this.state.tab} onChange={this.handleChange} centered>
+                        <Tab label = "Timelapse settings"/>
+                        <Tab label = "Camera settings"/>
+                        <Tab label = "Preview"/>
+                        <Tab label = "Slider settings"/>
+                    </Tabs>
+                </AppBar>
                 <TabPanel value={this.state.tab} index={0}>
                 <TimelapseSelectorForm
                     setParams = {this.props.setParams}
-                    currentParams = {this.props.timelapseParams}/>
+                    currentParams = {this.props.timelapseParams}
+                    toggleCameraControl={this.props.toggleCameraControl}
+                    handleCameraControlSwitch = {this.props.toggleCameraControl}/>
                 <WhichButton
                     showLaunchButton = {this.props.showLaunchButton}
                     startRecording = {this.props.startRecording}
@@ -120,6 +130,12 @@ export default class Navigation extends React.Component{
         else{
             return(
                 <>
+                <AppBar position="static" >
+                    <Tabs value={this.state.tab} onChange={this.handleChange} centered>
+                        <Tab label = "Timelapse settings"/>
+                        <Tab label = "Slider settings"/>
+                    </Tabs>
+                </AppBar>
                 <TabPanel value={this.state.tab} index={0}>
                     <TimelapseSelectorForm
                         setParams = {this.props.setParams}
@@ -142,16 +158,7 @@ export default class Navigation extends React.Component{
     render(){
         return(
 <>
-            <AppBar position="static" >
-                <Tabs value={this.state.tab} onChange={this.handleChange} centered>
-                    <Tab label = "Timelapse settings"/>
-                    <Tab label = "Camera settings"/>
-                    <Tab label = "Preview"/>
-                    <Tab label = "Slider settings"/>
-                </Tabs>
-            </AppBar>
-
-            {this.renderTabPanel(this.props.toggleCameraControl)}
+    {this.renderTabPanel()}
 </>
         )
     }
